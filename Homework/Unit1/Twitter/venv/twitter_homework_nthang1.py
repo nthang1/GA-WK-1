@@ -3,19 +3,25 @@
 import requests
 from requests_oauthlib import OAuth1
 
-url = 'https://api.twitter.com/1.1/account/verify_credentials.json'
-search = '?q='
+base_url = 'https://api.twitter.com/1.1/account/verify_credentials.json'
+# search = '?q='
 
-user_base_url = 'https://api.twitter.com/1.1/followers/list.json'
+user_base_url = 'https://api.twitter.com/1.1/users/lookup.json'
 user_search = '?screen_name='
 
-auth = OAuth1('cAgAFtIDM0v3TQhF9XzL5E4kS', 'VO4HmlhY3quTguSaaTL8sO37sAM96LKLpC3OyFXoS8I78D4Ozz',
-              '1291416908072353793-Awldljs5fDNbeaDUYJ0JD3FCNy5qXP', 'UNAhCbK67f9X3fxj2hxmzZVm9pLm5DJnZDSQPcQgrwWbC')
+auth = OAuth1()
 
-def find_user(user):
-    if user[0] == '@':
-        print(requests.get(user_base_url + user_search + user.replace('@', ''), auth=auth).json())
+def find_user(user, keys=None):
+    results = requests.get(user_base_url + user_search + user.replace('@', ''), auth=auth).json()[0]
+
+    if keys != None:
+        reduced_results = {}
+        for key in keys:
+            reduced_results[key] = results[key]
+        return reduced_results
+
     else:
-        print(requests.get(user_base_url + user_search + user, auth=auth).json())
+        return results
 
-find_user('GA')
+find_user('@GA', keys=['name', 'screen_name', 'followers_count', 'friends_count'])
+# find_user('@GA')

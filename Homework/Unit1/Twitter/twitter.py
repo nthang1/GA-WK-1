@@ -26,7 +26,7 @@ def find_user(user, keys=None):
     else:
         return results
 
-#test prompts for get_followers function to be used for testing
+#test prompts for find_user function to be used for testing
 # find_user('@GA', keys=['name', 'screen_name', 'followers_count', 'friends_count'])
 # find_user('@GA')
 

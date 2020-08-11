@@ -60,3 +60,35 @@ def get_followers(screen_name, keys=None, to_df=False):
 # get_followers('GA', keys=['name', 'followers_count'])
 # get_followers('GA', keys=['name', 'followers_count'], to_df=True)
 # get_followers('GA', to_df=True)
+
+
+#find_hashtag function, work in progress
+
+base_url = 'https://api.twitter.com/1.1/search/tweets.json'
+
+def find_hashtag(hashtag, count=None, result_type=None):
+    # creating a tweet variable from the hashtag input, replacing hash with ''
+    clean_hashtag = hashtag.replace('#', '')
+    tweets = '?qtext=%23' + f"{clean_hashtag}"
+
+    # creating a count variable for count input
+    if count != None:
+        count = '&count=' + f"{count}"
+
+    # creating a result_type variable
+    if result_type != None:
+        result_type = 'result_type=' + f"{result_type}"
+
+    # results from API endpoint, currently not configured for count and result_type
+    search_results = requests.get(base_url + tweets, auth=auth).json()
+    return search_results
+
+#     if keys != None:
+#         reduced_results_list = []
+#         for result in search_results:
+#             new_user_dict = {}
+#             for key in keys:
+#                 new_user_dict[key] = result[key]
+#                 reduced_results_list.append(new_user_dict)
+
+find_hashtag('#DataScience')
